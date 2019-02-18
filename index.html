@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>InfoGem</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/lib/d3.js" charset="utf-8"></script>
+    <script src="js/lib/graph-scroll.js" charset="utf-8"></script>
+    <script src="js/lib/swoopy-drag.js" charset="utf-8"></script>
+    <script src="js/lib/crossfilter.js" charset="utf-8"></script>
+    <script src="js/lib/jquery.js" charset="utf-8"></script>
+    <script src="js/lib/moment-with-locales.js" charset="utf-8"></script>
+    <script src="js/lib/Chart.js" charset="utf-8"></script>
+    <script src="js/lib/info-gem.js" charset="utf-8"></script>
+  </head>
+  <body>
+      <div class="centered">
+          <h1>InfoGem : Ayudando con la insensitividad en consultas dinámicas</h1>
+          <p>
+          <b>¿Por qué no cambia el resultado?</b>
+          La insensitividad es la falta de información acerca de cómo afectan las operaciones
+          de conjuntos que se aplican en las consultas dinámicas o cualquier interfaz que permita
+          aplicar filtrado.
+          </p>
+          <div id="container_1">
+            <div id="graph">
+                <label for"max_cost">Max cost</label>
+                <input id="max_cost" type="range"></input>
+                <span id="max_cost_value"></span>
+                <br/>
+                <label for"start_creation_date">Creation date</label>
+                <input id="start_creation_date" type="date"></input>
+                <input id="end_creation_date" type="date"></input>
+                <span id="creation_date_value"></span>
+                <div id="contents"></div>
+                <br/>
+                <span id="extra"></span>
+            </div>
+            <div id="sections">
+                <div>
+                    <h3></h3>
+                    <p>
+                        En consultas dinámicas es posible que un cambio en los filtros 
+                        aplicados (en la consulta) no provoque un cambio en los elementos
+                        mostrados en pantalla.
+                        <br/>
+                        La falta de información impide discernir entre una aplicación que no
+                        responde a la interacción y un filtro que no extiende los elementos 
+                        que caen en la intersección de todos los filtros.
+                        <br/>
+                        <b>
+                        ¿No hay resultados, o ha fallado la aplicación?
+                        </b>
+                    </p>
+                </div>
+                <div>
+                    <h3>¿Hay elementos que cumplan con una condición en específico?</h3>
+                    <p>
+                    Una de las medidas que se pueden tomar para informar al usuario de cómo
+                    modificar la consulta para ampliar o reducir el número de resultados es:
+                    <ul>
+                        <li>Mostrar la distribución de los datos para cada una de las dimensiones.</li>
+                    </ul>
+                    Ahora el usuario es capaz de razonar cómo, usando un único filtro, puede afinar 
+                    una búsqueda.
+                    </p>
+                </div>
+                <div>
+                    <h3>¿Puede el usuario combinar filtros de forma eficaz?</h3>
+                    <p>
+                    Aun mostrando la distribución de las entradas para cada dimensión que se
+                    use en los filtros, la intersección de los conjuntos que cumplen cada filtro
+                    no se puede apreciar.<br/>
+                    <b>Sigue habiendo casos en los que el usuario no puede apreciar cómo
+                        están afectando los filtros.</b><br/>
+                    Es claro que cuando el número de dimensiones aumente la intersección entre
+                    pares de conjuntos será clave para identificar dónde hay un cuello de botella.
+                    </p>
+                </div>
+            </div>
+          </div>
+            <div>
+                <h3>Visualizar relaciones de intersección : Diagrama de Venn</h3>
+                <div style="display:flex; justify-content:space-around;">
+                    <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Diagrama_de_Venn_4b.png/320px-Diagrama_de_Venn_4b.png"
+                    style="display:inline-block;"
+                    height=200>
+                    <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Diagrama_de_Venn.png/640px-Diagrama_de_Venn.png"
+                    style="display:inline-block;"
+                    height=200>
+                </div>
+                <p>
+                Los Diagramas de Venn permiten representar las relaciones de intersección entre varios 
+                conjuntos con dos aspectos que dificultan su uso para tratar la insensitividad :
+                <ul>
+                    <li>La dificultad de extrapolar el enfoque a un número mayor de 4 dimensiones.</li>
+                    <li>En caso de usar áreas proporcionales al tamaño de los conjuntos, es difícil 
+                        mostrar compararlas.</li>
+                </ul>
+                </p>
+                <h3>Visualizar intersecciones para más de tres conjuntos : Diagrama de Edwards</h3>
+                <div style="display:flex; justify-content:space-around;">
+                    <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Venn-three.svg/640px-Venn-three.svg.png"
+                    style="display:inline-block;"
+                    height=200>
+                    <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Edwards-Venn-four.svg/640px-Edwards-Venn-four.svg.png"
+                    style="display:inline-block;"
+                    height=200>
+                </div>
+                <p>
+                Los Diagramas de Edwards permiten visualizar un mayor número de intersecciones proyectando el diagrama sobre
+                una esfera. <br/>
+                Aunque ésto permite visualizar un mayor número de intersecciones, sigue presente el problema de tener
+                figuras geométricas de distinta forma : <b>es difícil comparar las áreas y por tanto identificar los
+                cuellos de botella</b>.
+                </p>
+                <h3>InfoCrystal (Spoerri, A. ) : Una transformación del diagrama de Venn para consultas dinámicas</h3>
+                <div style="display:flex; justify-content:space-around;">
+                    <img
+                    src="https://www.researchgate.net/profile/Selan_Santos/publication/33759047/figure/fig4/AS:669425464270853@1536614876327/Concept-of-infocrystal-involving-three-sets-A-B-and-C-The-Venn-diagram-in-a-has.jpg"
+                    style="display:inline-block;"
+                    height=450>
+                </div>
+                <p>
+                En vez utilizar la superposición de formas geométricas para representar la intersección de los conjuntos,
+                usa una forma por cada conjunto (incluyendo las intersecciones); figuras geométricas con tantos lados
+                como el número de conjuntos involucrados en la operación.
+                <br/>
+                Este enfoque permite realizar consultas más sencillamente pues es más fácil identificar la forma que
+                se corresponde con la operación deseada. Si embargo, <b>no utiliza ningún canal visual para mostrar 
+                la cardinalidad de los conuntos</b>.
+                </p>
+            </div>
+          <div id="container_2">
+            <div id="graph">
+                <div id="contents">
+                    <svg width="400" height="400">
+                        <g class="gem"></g>
+                        <g class="annotations"></g>
+                    </svg>
+                </div>
+            </div>
+            <div id="sections">
+                <div>
+                    <h3>InfoGem</h3>
+                    <p>
+                    La propuesta de visualización consiste en la transformación de un diagrama de Venn donde :
+                    <ul>
+                        <li>
+                        Tanto
+                        los lados de los triángulos que representan los tres conjuntos iniciales como la intersección
+                        de los tres, tienen los lados proporcionales
+                        </li>
+                    </ul>
+                    <b>De forma inmediata se puede ver si algún conjunto tiene poca representación en la intersección de los tres.</b>
+                    <ul>
+                        <li>
+                        Los dos lados oblicuos de los trapecios que representan las intersecciones dos a dos son proporcionales
+                        a la cardinalidad de dicha intersección.
+                        </li>
+                    </ul>
+                    <b>De forma inmediata se ve si dos conjuntos compparten todos los elementos o no.</b>
+                    <ul>
+                        <li>
+                        Dado que se usan siempre los lados, y la escala es consistente, variaciones más pequeñas en la cardinalidad se 
+                        podrán apreciar, en comparación con técnicas como los diagrama de Venn que tendrían que hacer uso del área.
+                        </li>
+                    </ul>
+                    </p>
+                </div>
+                <div>
+                    <h3> Segundo cuadrdadito</h3>
+                    <p>
+                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
+                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
+                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
+                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
+                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
+                    vivamus orci.
+                    </p>
+                </div>
+                <div>
+                    <h3> Tercer cuadrdadito</h3>
+                    <p>
+                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
+                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
+                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
+                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
+                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
+                    vivamus orci.
+                    </p>
+                </div>
+            </div>
+          </div>
+
+            <div>
+                <h3>Visualizar relaciones de intersección : Diagrama de Venn</h3>
+                <div style="display:flex; justify-content:space-around;">
+                    <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Diagrama_de_Venn_4b.png/320px-Diagrama_de_Venn_4b.png"
+                    style="display:inline-block;"
+                    height=200>
+                    <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Diagrama_de_Venn.png/640px-Diagrama_de_Venn.png"
+                    style="display:inline-block;"
+                    height=200>
+                </div>
+                <p>
+                Los Diagramas de Venn permiten representar las relaciones de intersección entre varios 
+                conjuntos con dos aspectos que dificultan su uso para tratar la insensitividad :
+                <ul>
+                    <li>La dificultad de extrapolar el enfoque a un número mayor de 4 dimensiones.</li>
+                    <li>En caso de usar áreas proporcionales al tamaño de los conjuntos, es difícil 
+                        mostrar compararlas.</li>
+                </ul>
+                </p>
+            </div>
+
+          <div id="container_3">
+            <div id="graph">
+                <div id="contents">
+                    <svg width="400" height="400">
+                        <g class="gem"></g>
+                        <g class="annotations"></g>
+                    </svg>
+                </div>
+            </div>
+            <div id="sections">
+                <div>
+                    <h3> Segundo cuadrdadito</h3>
+                    <p>
+                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
+                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
+                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
+                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
+                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
+                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
+                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
+                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
+                    vivamus orci.
+                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
+                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
+                    vivamus orci.
+                    </p>
+                </div>
+                <div>
+                    <h3> Tercer cuadrdadito</h3>
+                    <p>
+                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
+                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
+                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
+                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
+                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
+                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
+                    vivamus orci.
+                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
+                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
+                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
+                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
+                    vivamus orci.
+                    </p>
+                </div>
+            </div>
+          </div>
+
+
+          <h1>InfoGem : Ayudando con la insensitividad en consultas dinámicas</h1>
+      </div>
+      <div id="example">
+            <div id="controls">
+                <div id="grafos">
+                    <div id="year"><canvas height="400" width="400"></canvas></div>
+                    <div id="cost"><canvas height="438" width="400"></canvas></div>
+                    <div id="gem"><svg height="400" width="400">
+                    </svg></div>
+                </div>
+                <br/>
+                <form>
+                <label for="status">Status</status>
+                <select name="status" id="status">
+                      <option value="all">Todo</option>
+                      <option value="inactive">Inactivo</option>
+                      <option value="active">Activo</option>
+                  </select>
+                <label for"max_cost">Precio máximo</label>
+                <input id="max_cost" type="range"></input>
+                <span id="max_cost_value"></span>
+                <label for"start_creation_date">Fecha</label>
+                <input id="start_creation_date" type="date"></input>
+                <input id="end_creation_date" type="date"></input>
+                <span id="creation_date_value"></span>
+                </form>
+            </div>
+            <div id="contents">
+                <table>
+                    <thead>
+                      <tr>
+                        <th>Tipo</th>
+                        <th>Status</th>
+                        <th>Coste máximo</th>
+                        <th>Fecha creación</th>
+                        <th>Link</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+      </div>
+
+      <div class="centered">
+          <p>
+          posible mejora: representar intersecciones en vez de conjuntos e intersecciones
+          <b>Recursos</b>
+          <ul>
+              <li><a target="blank" href="https://aspoerri.comminfo.rutgers.edu/InfoCrystal/InfoCrystal.htm">
+                Spoerri, A.(1999). InfoCrystal (link to the main page)</a></li>
+              <li><a target="blank" href="https://link.springer.com/book/10.1007%2F978-3-319-07341-5">Spence R. Information Visualization</a></li>
+              <li><a target="blank" href=""></a></li>
+              <li><a target="blank"
+                      href="https://www.researchgate.net/publication/33759047_A_framework_for_the_visualization_of_multidimensional_and_multivariate_data">
+                        Santos, Selan. (2019). A framework for the visualization of multidimensional andmultivariate data 
+                  </a></li>
+              <li><a target="blank" href="https://www.combinatorics.org/files/Surveys/ds5/VennEJC.html">https://www.combinatorics.org/files/Surveys/ds5/VennEJC.html</a></li>
+              <li><a target="blank" href="https://es.wikipedia.org/wiki/Diagrama_de_Venn">https://es.wikipedia.org/wiki/Diagrama_de_Venn</a></li>
+          </ul>
+          </p>
+      </div>
+    <script type="module" src="js/index.js" charset="utf-8"></script>
+  </body>
+</html>
