@@ -2,6 +2,8 @@ body{
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+input#max_cost{width:41em;}
+
 div.centered{
   max-width: 900px;
   margin: 0px auto 20px auto;
