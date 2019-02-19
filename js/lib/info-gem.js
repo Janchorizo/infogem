@@ -74,49 +74,78 @@ var infoGem = (()=>{
                right[1]-(side*Math.sin(Math.PI/3))]];
     }
 
-    function renderCrystal(height,width,radious,selector){
+    function renderCrystal(height,width,radious,selector, labels){
       const svg = d3.select(selector);
 
-      svg.append('g')
-        .attr('id','top-left')
+      let element = null;
+      element = svg.append('g')
+        .attr('id','top-left');
+     element
         .append('path')
         .style('stroke','black')
         .style('fill','grey');
+     element
+        .append('title')
+            .html(`${labels[0]} AND ${labels[2]}`);
 
-      svg.append('g')
+      element = svg.append('g')
         .attr('id','top-right')
+     element
         .append('path')
         .style('stroke','black')
         .style('fill','grey');
+     element
+        .append('title')
+            .html(`${labels[0]} AND ${labels[1]}`);
 
-      svg.append('g')
+      element = svg.append('g')
         .attr('id','left-right')
+     element
         .append('path')
         .style('stroke','black')
         .style('fill','grey');
+     element
+        .append('title')
+            .html(`${labels[1]} AND ${labels[2]}`);
       
-      svg.append('g')
+      element = svg.append('g')
         .attr('id','top')
+     element
         .append('path')
         .style('stroke','black')
         .style('fill','red');
+     element
+        .append('title')
+            .html(labels[0]);
 
-      svg.append('g')
+      element = svg.append('g')
         .attr('id','right')
+     element
         .append('path')
         .style('stroke','black')
         .style('fill','blue');
+     element
+        .append('title')
+            .html(labels[1]);
 
-      svg.append('g')
+      element = svg.append('g')
         .attr('id','left')
+     element
         .append('path')
         .style('stroke','black')
         .style('fill','green');
+     element
+        .append('title')
+            .html(labels[2]);
 
-      svg.append('g')
+      element = svg.append('g')
         .attr('id','inner')
+     element
         .append('path')
         .style('stroke','black');
+     element
+        .append('title')
+            .html(`${labels[0]} AND ${labels[1]} AND ${labels[2]}`);
     }
 
     function updateCrystal(width, height, radious, selector, sizes){

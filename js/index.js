@@ -133,7 +133,7 @@ function renderSecondContainer(i){
 
     switch(i){
         case 0:
-			infoGem.create(width, height, radius, '#container_2 #contents svg .gem');
+			infoGem.create(width, height, radius, '#container_2 #contents svg .gem',['a','b','c']);
 			infoGem.update(width, height, radius, '#container_2 #contents svg .gem',
 				{a:maxSide,b:maxSide,c:maxSide, ab:maxSide,ac:maxSide,bc:maxSide, abc:maxSide});
 
@@ -190,7 +190,7 @@ function renderThirdContainer(i){
 				.attr('stdDeviation', '7 7')
 				.attr('result', 'blur');
 
-			infoGem.create(width, height, radius, '#container_3 #contents svg .gem');
+			infoGem.create(width, height, radius, '#container_3 #contents svg .gem',['a','b','c']);
 			infoGem.update(width, height, radius, '#container_3 #contents svg .gem',
 				{a:maxSide,b:maxSide,c:maxSide, ab:maxSide,ac:maxSide/2,bc:maxSide, abc:maxSide});
 			d3.select('#container_3 #contents svg g#top-left path')
@@ -328,7 +328,6 @@ function renderExample(){
     d3.select('#example #controls input#end_creation_date').on('change',()=>handleChanges());
     d3.select('#example #controls input#max_cost').on('change',()=>handleChanges());
     d3.select('#example #controls select#status').on('change',()=>handleChanges());
-    handleChanges();
 
     $('#container_1 #max_cost_value').html(document.getElementById('max_cost').value);
     $('#container_1 #contents').html(xfilter.all().length);
@@ -336,9 +335,8 @@ function renderExample(){
     renderBarChart($('#example #grafos #year canvas'),creation_date_dimension,d=>d.getFullYear(),'# de proyectos por año');
     renderBarChart($('#example #grafos #cost canvas'),max_cost_dimension,d=>d,'# de proyectos por rango de precio');
 
-    infoGem.create(width, height, radius, '#example #grafos #gem svg');
-    infoGem.update(width, height, radius, '#example #grafos #gem svg',
-        {a:maxSide,b:maxSide,c:maxSide, ab:maxSide,ac:maxSide,bc:maxSide, abc:maxSide});
+    infoGem.create(width, height, radius, '#example #grafos #gem svg',['max cost','creation date','status']);
+    handleChanges();
 }
 
 const annotations = [
