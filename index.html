@@ -173,50 +173,34 @@
                     </p>
                 </div>
                 <div>
-                    <h3> Segundo cuadrdadito</h3>
+                    <h3>Comparando conjuntos</h3>
                     <p>
-                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
-                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
-                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
-                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
-                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
-                    vivamus orci.
+                    A diferencia de un diagrama de Venn, en el que las secciones no superpuestas indican elementos
+                    exclusivos de un conjunto concreto, aquí cada triágulo de color es el conjunto completo de elementos
+                    que umplen una cierta condición (filtro). <br>
+                    Esto permite comparar la intersección con el número total de elementos para una condición concreta,
+                    mientras que <b>en un diagrama de Venn que se deforme para indicar cardinalidad no es inmediato comparar
+                    cuántas entradas cumplen cada una de las condiciones por separado</b>.
                     </p>
                 </div>
                 <div>
-                    <h3> Tercer cuadrdadito</h3>
+                    <h3>Identificación de cuellos de botella</h3>
                     <p>
-                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
-                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
-                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
-                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
-                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
-                    vivamus orci.
+                    Es fácil e intuitivo el localizar cuellos de botella que afectan a la búsqueda. Condiciones
+                    demasiado restrictivas impiden que otras repercutan de alguna manera. <br>
+                    Es fácil ver en qué casos se tiene una condición de este tipo: uno de los triángulos de color es
+                    mucho menor que el resto; de forma que la cardinalidad de la intersección de los tres está
+                    completamente limitada por éste último.
                     </p>
                 </div>
             </div>
           </div>
 
             <div>
-                <h3>Visualizar relaciones de intersección : Diagrama de Venn</h3>
-                <div style="display:flex; justify-content:space-around;">
-                    <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Diagrama_de_Venn_4b.png/320px-Diagrama_de_Venn_4b.png"
-                    style="display:inline-block;"
-                    height=200>
-                    <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Diagrama_de_Venn.png/640px-Diagrama_de_Venn.png"
-                    style="display:inline-block;"
-                    height=200>
-                </div>
+                <h3>Visualizar incertidumbre</h3>
                 <p>
-                Los Diagramas de Venn permiten representar las relaciones de intersección entre varios 
-                conjuntos con dos aspectos que dificultan su uso para tratar la insensitividad :
-                <ul>
-                    <li>La dificultad de extrapolar el enfoque a un número mayor de 4 dimensiones.</li>
-                    <li>En caso de usar áreas proporcionales al tamaño de los conjuntos, es difícil 
-                        mostrar compararlas.</li>
-                </ul>
+                Uno de los problemas a los que nos podemos enfrentar es reflejar la naturaleza incierta de los datos que
+                están representando: ¿Es seguro el número de elementos en los conjuntos?
                 </p>
             </div>
 
@@ -231,37 +215,25 @@
             </div>
             <div id="sections">
                 <div>
-                    <h3> Segundo cuadrdadito</h3>
+                    <h3> Métodos implementados</h3>
                     <p>
-                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
-                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
-                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
-                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
-                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
-                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
-                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
-                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
-                    vivamus orci.
-                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
-                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
-                    vivamus orci.
+                    Existen varias técnicas que se pueden usar para visualizar incertidumbre:
+                    un difuminado puede indicar que el valor representado está comprendido en la zona ocupada por el
+                    difuminado, pero puede ser perjudicial por deformar la estructura de la figura e impedir por tanto 
+                    realizar la tarea para la que se ha diseñado: <b>comparar diferentes restricciones y sus
+                        intersecciones</b>.<br>
                     </p>
                 </div>
                 <div>
                     <h3> Tercer cuadrdadito</h3>
                     <p>
-                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
-                    Mi congue imperdiet montes sociosqu porta quis class orci potenti 
-                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
-                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
-                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
-                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
-                    vivamus orci.
-                    vitae, iaculis lacus vestibulum curae quam augue dis ad. Enim fusce 
-                    sodales feugiat senectus aenean sagittis facilisi habitant pretium 
-                    mattis in, proin nulla sem felis platea massa montes quisque tempus 
-                    ultrices, taciti viverra conubia libero iaculis vitae rutrum erat 
-                    vivamus orci.
+                    Por otro lado, se ha propuesto el uso de animaciones para indicar que un conjunto puede tener una de
+                    las múltiples cantidades de elementos representadas.<br>
+
+                    Sin embargo, hay usuarios que pueden interpretar esa animación como un cambio en el tiempo; una
+                    evolución de los datos.<br><br>
+
+                    Otras posibilidades que se podrían explorar 
                     </p>
                 </div>
             </div>
